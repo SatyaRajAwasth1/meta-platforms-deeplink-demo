@@ -74,10 +74,10 @@
 
             // Set manual button link
             const openBtn = document.getElementById('openBtn');
-            openBtn.href = appScheme;
+            openBtn.href = isAndroid ? appScheme : deepLink;
 
             // Try to open the app automatically
-            window.location.href = appScheme;
+            window.location.href = isAndroid ? appScheme : deepLink;
 
             // If not opened, redirect to store/fallback after 15s
             setTimeout(() => {
