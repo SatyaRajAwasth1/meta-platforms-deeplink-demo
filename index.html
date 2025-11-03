@@ -79,10 +79,10 @@
             // Try to open the app automatically
             window.location.href = appScheme;
 
-            // If not opened, redirect to store/fallback after 1.5s
+            // If not opened, redirect to store/fallback after 15s
             setTimeout(() => {
                 window.location.href = storeUrl;
-            }, 1500);
+            }, 15000);
         })();
     </script>
 </body>
