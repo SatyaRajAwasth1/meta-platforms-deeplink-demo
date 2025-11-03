@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open App Button</title>
+    <title>Opening eSewa...</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            text-align: center;
+            padding: 2rem;
         }
         .open-btn {
-            background-color: #007bff;
+            background-color: #00a859;
             color: white;
             border: none;
             padding: 15px 30px;
@@ -22,13 +25,65 @@
             font-size: 18px;
             cursor: pointer;
             transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1.5rem;
         }
         .open-btn:hover {
-            background-color: #0056b3;
+            background-color: #008f4c;
+        }
+        h2 {
+            color: #333;
+        }
+        p {
+            color: #555;
         }
     </style>
 </head>
 <body>
-    <button class="open-btn" onclick="window.location.href='https://links.esewa.com.np/d/bluebook-slider'">Open App</button>
+    <h2>Opening eSewa...</h2>
+    <p>If it doesn’t open automatically, tap below to open manually.</p>
+    <a id="openBtn" class="open-btn" href="#">Open in eSewa</a>
+
+    <script>
+        (function() {
+            // --- Configuration ---
+            const androidStoreUrl = 'https://play.google.com/store/apps/details?id=com.f1soft.esewa';
+            const iosStoreUrl = 'https://apps.apple.com/np/app/esewa/id614370939';
+            const fallbackUrl = 'https://esewa.com.np';
+            // ----------------------
+
+            // Read slug from ?slug= parameter
+            const params = new URLSearchParams(window.location.search);
+            const slug = params.get('slug');
+
+            if (!slug) {
+                document.body.innerHTML = "<h2>Invalid Link</h2><p>Missing 'slug' parameter in URL.</p>";
+                return;
+            }
+
+            // Construct deep link and app scheme
+            const appScheme = `esewa://d/${slug}`;
+            const deepLink = `https://rc-links.esewa.com.np/d/${slug}`;
+
+            // Detect platform
+            const ua = navigator.userAgent || '';
+            const isAndroid = /Android/i.test(ua);
+            const isIOS = /iPhone|iPad|iPod/i.test(ua);
+            const storeUrl = isAndroid ? androidStoreUrl : (isIOS ? iosStoreUrl : fallbackUrl);
+
+            // Set manual button link
+            const openBtn = document.getElementById('openBtn');
+            openBtn.href = appScheme;
+
+            // Try to open the app automatically
+            window.location.href = appScheme;
+
+            // If not opened, redirect to store/fallback after 1.5s
+            setTimeout(() => {
+                window.location.href = storeUrl;
+            }, 1500);
+        })();
+    </script>
 </body>
 </html>
