@@ -76,10 +76,13 @@
             const openBtn = document.getElementById('openBtn');
             openBtn.href = isAndroid ? appScheme : deepLink;
 
-            // Try to open the app automatically
+                // Auto-click the button after 1.5 seconds
             window.location.href = isAndroid ? appScheme : deepLink;
+            setTimeout(() => {
+                openBtn.click();
+            }, 1500);
 
-            // If not opened, redirect to store/fallback after 15s
+            // Redirect to store/fallback after 15s if app not opened
             setTimeout(() => {
                 window.location.href = storeUrl;
             }, 15000);
